@@ -2,7 +2,6 @@ package projeto;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class PosPago extends Assinante{
     private float assinatura;
@@ -33,13 +32,24 @@ public class PosPago extends Assinante{
         
         //for-each para percorrer o "chamadas" 
         for (Chamada chamada : Chamadas) {
-        	if (chamada.getData().get(Calendar.MONTH)== mes) {
+        	if (chamada.getData().get(Calendar.MONTH)+ 1 == mes) {
         		System.out.println("Data: " + chamada.getData());
         		System.out.println("Duração da chamada: " + chamada.getDuracao());
         		float valorChamada = custo_chamada * chamada.getDuracao();
         		System.out.println("Valor da chamada: " + valorChamada);
         	}
         }
+        
+        int totalFaturaMes = 0;
+		for(int i = 0; numChamadas < i ; i ++) {
+    		Chamada chamada = Chamadas[i];
+    		if(chamada.getData().get(Calendar.MONTH) + 1 == mes) { 
+    			totalFaturaMes += (custo_chamada * chamada.getDuracao());
+    		}
+    	}
+		System.out.println("O valor total da fatura é igual a: " + totalFaturaMes);
     }
+
+	
 	
 }
