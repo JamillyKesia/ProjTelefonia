@@ -33,13 +33,16 @@ public class PrePago extends Assinante {
        }
 	
 	public void recarregar(GregorianCalendar data, float valor) {
-		if(recargas.length < 8) {
-			System.out.println("É possível realizar recarga");
-			numChamadas++;
-			creditos++;
-		}else {
-			System.out.println("Não é possivel realizar nova recarga");
-		}
+	    if (numRecargas >= recargas.length) {
+	        System.out.println("Não é possível fazer a recarga. O vetor de recargas está cheio.");
+	        return;
+	    }
+	
+	    Recarga recarga = new Recarga(data, valor);
+	    recargas[numRecargas] = recarga;
+	    numRecargas++;
+	    creditos += valor;
+	    System.out.println("Recarga realizada com sucesso!");
 	}
 	
 	public void imprimirFatura(int mes) {
