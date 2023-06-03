@@ -46,6 +46,36 @@ public class PrePago extends Assinante {
 	}
 	
 	public void imprimirFatura(int mes) {
-		System.out.println();
+		System.out.println("=========Fatura=========");
+		System.out.println("CPF: "+getCpf());
+		System.out.println("Nome: " + getNome());
+	    System.out.println("Número de telefone: " + getNumeroTelefone());
+	    System.out.println("Chamadas realizadas no mês " + mes + ":");
+	    
+        float totalChamadas = 0.0f;
+        for (int i = 0; i < numChamadas; i++) {
+            Chamada chamada = chamadas[i];
+            if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
+                System.out.println("Data: " + chamada.getData().getTime());
+                System.out.println("Duração: " + chamada.getDuracao() + " minutos");
+                System.out.println("Valor: R$ " + chamada.getValor());
+                totalChamadas += chamada.getValor();
+            }
+        }
+        System.out.println("Valor total de chamadas: R$ " + totalChamadas);
+        
+        System.out.println("Recargas feitas no mês " + mes + ":");
+        
+        float totalRecargas = 0.0f;
+        for (int i = 0; i < numRecargas; i++) {
+            Recarga recarga = recargas[i];
+            if (recarga.getData().get(GregorianCalendar.MONTH) == mes) { //vê se a recargar ocorreu no mês desejado
+                System.out.println("Data: " + recarga.getData().getTime());
+                System.out.println("Valor: R$ " + recarga.getValor());
+                totalRecargas += recarga.getValor(); //valor da recarga é add
+                System.out.println("Valor total de recargas: R$ " + totalRecargas);
+                float saldo = totalRecargas - totalChamadas;
+                System.out.println("Saldo de créditos: R$ " + saldo);
+            }
 	}
 }
