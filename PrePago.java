@@ -15,24 +15,22 @@ public class PrePago extends Assinante {
 		this.numRecargas = numRecargas;
 	}
 	
-	public void fazerChamada(GregorianCalendar data, int duracao) {
-		if(Chamadas.length < 8) {
-			System.out.println("O vetor tem espaço");
-			
-			if(creditos >= 1.45) {
-				System.out.println("Possui créditos suficientes para fazer chamadas");
-				//Chamadas[numChamadas] = 8;
-		        numChamadas++;
-		        //creditos -= custoChamada;
+	public float fazerChamada(GregorianCalendar data, int duracao) {
+		if (numChamadas < Chamadas.length) {
+			float Gasto = (float)(1.45 * duracao);
+			if (creditos >= Gasto) {
+				Chamada novaChamada = new Chamada(data, duracao);
+				Chamadas[numChamadas] = novaChamada;
+				creditos = creditos - Gasto;
+				System.out.println("foi feito fi");
+		    }else{
+				System.out.println("Não há possibilidade de efetuar uma nova chamada.");
 			}
-			else {
-				System.out.println("Créditos insuficientes para fazer chamadas");
-			}
-		}else {
-			System.out.println("O vetor está cheio");
+			return duracao;
+		    }
+		return duracao;
 		}
-		
-	}
+       }
 	
 	public void recarregar(GregorianCalendar data, float valor) {
 		if(recargas.length < 8) {
