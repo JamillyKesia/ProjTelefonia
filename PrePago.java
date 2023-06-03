@@ -22,7 +22,7 @@ public class PrePago extends Assinante {
 				Chamada novaChamada = new Chamada(data, duracao);
 				Chamadas[numChamadas] = novaChamada;
 				creditos = creditos - Gasto;
-				System.out.println("foi feito fi");
+				System.out.println("Chamada pode ser realizada");
 		    }else{
 				System.out.println("Não há possibilidade de efetuar uma nova chamada.");
 			}
