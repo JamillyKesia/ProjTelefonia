@@ -14,7 +14,7 @@ public class Assinante {
 		this.numChamadas = 0;
 			
 		//instanciar o vetor chamadas -> talvez use ArrayList
-		Chamada[] Chamadas = new Chamada[8];
+		Chamada[] Chamadas = new Chamada[4];
 	}
 	
 	public long getCpf() {
