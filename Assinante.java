@@ -7,23 +7,23 @@ public class Assinante {
 	protected Chamada[] Chamadas;
 	protected int numChamadas;
 	
-	public Assinante(long cpf, String nome, int numero, int numChamadas) {
+	public Assinante(long cpf, String nome, int numero) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.numero = numero;
-		this.numChamadas = numChamadas;
+		this.numChamadas = 0;
 			
 		//instanciar o vetor chamadas -> talvez use ArrayList
 		Chamada[] Chamadas = new Chamada[8];
 	}
 	
 	public long getCpf() {
-		return this.cpf;
+		return cpf;
 		
 	}
 	
 	public String toString() {
-		return "Nome: " + nome + "\nCPF: " + cpf + "\nNúmero: " + numero + "\nnumChamadas: "+ numChamadas; // adicione os outros atributos conforme necessário
+		return "Nome: " + nome + "\nNúmero de telefone: " + numero;  // adicione os outros atributos conforme necessário
 	}
 	
 	
