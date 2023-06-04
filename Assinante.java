@@ -13,8 +13,8 @@ public class Assinante {
 		this.numero = numero;
 		this.numChamadas = 0;
 			
-		//instanciar o vetor chamadas -> talvez use ArrayList
-		Chamada[] Chamadas = new Chamada[4];
+		//instanciar o vetor chamadas
+		this.Chamadas = new Chamada[8];
 	}
 	
 	public long getCpf() {
