@@ -4,12 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 public class PrePago extends Assinante {
-	private int[] recargas;
+	private Recarga[] recargas;
 	private int creditos;
 	private int numRecargas;
 	
 	public PrePago(long cpf, String nome, int numero, int[] recargas, int creditos, int numRecargas) {
-		super(cpf, nome, numero, numRecargas);
+		super(cpf, nome, numero);
 		recargas = new int[8];
 		this.creditos = creditos;
 		this.numRecargas = numRecargas;
@@ -21,7 +21,7 @@ public class PrePago extends Assinante {
 			if (creditos >= Gasto) {
 				Chamada novaChamada = new Chamada(data, duracao);
 				Chamadas[numChamadas] = novaChamada;
-				creditos = creditos - Gasto;
+				creditos = (int) (creditos - Gasto);
 				System.out.println("Chamada pode ser realizada");
 		    }else{
 				System.out.println("Não há possibilidade de efetuar uma nova chamada.");
@@ -30,14 +30,12 @@ public class PrePago extends Assinante {
 		    }
 		return duracao;
 		}
-       }
 	
 	public void recarregar(GregorianCalendar data, float valor) {
 	    if (numRecargas >= recargas.length) {
 	        System.out.println("Não é possível fazer a recarga. O vetor de recargas está cheio.");
 	        return;
 	    }
-	
 	    Recarga recarga = new Recarga(data, valor);
 	    recargas[numRecargas] = recarga;
 	    numRecargas++;
@@ -45,25 +43,23 @@ public class PrePago extends Assinante {
 	    System.out.println("Recarga realizada com sucesso!");
 	}
 	
-	public void imprimirFatura(int mes) {
+	public void imprimirFatura(int mes, GregorianCalendar data, float valor) {
 		System.out.println("=========Fatura=========");
-		System.out.println("CPF: "+getCpf());
-		System.out.println("Nome: " + getNome());
-	    System.out.println("Número de telefone: " + getNumeroTelefone());
-	    System.out.println("Chamadas realizadas no mês " + mes + ":");
+		System.out.println("CPF: " + getCpf());
+		toString();
 	    
-        float totalChamadas = 0.0f;
+		float totalChamadas = 0.0f;
         for (int i = 0; i < numChamadas; i++) {
-            Chamada chamada = chamadas[i];
+            Chamada chamada = Chamadas[i];
             if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
-                System.out.println("Data: " + chamada.getData().getTime());
-                System.out.println("Duração: " + chamada.getDuracao() + " minutos");
-                System.out.println("Valor: R$ " + chamada.getValor());
-                totalChamadas += chamada.getValor();
+                chamada.toString(); //classe chamada data e duração
+                recargas.toString();
+                Recarga recarga = new Recarga(data,valor);
+                totalChamadas += recarga.getValor();
             }
         }
         System.out.println("Valor total de chamadas: R$ " + totalChamadas);
-        
+
         System.out.println("Recargas feitas no mês " + mes + ":");
         
         float totalRecargas = 0.0f;
@@ -77,5 +73,6 @@ public class PrePago extends Assinante {
                 float saldo = totalRecargas - totalChamadas;
                 System.out.println("Saldo de créditos: R$ " + saldo);
             }
+        }
 	}
 }
