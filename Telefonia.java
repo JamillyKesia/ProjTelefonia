@@ -1,4 +1,8 @@
 package projeto;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Telefonia {
@@ -37,7 +41,7 @@ public class Telefonia {
 			    		telefonia.listarAssinantes();
 			    		break;
 			    	case 3:
-			    		telefonia.fazerChamada();
+			    		telefonia.fazerChamada(null, opcaoMenu);
 			    		break;
 			    	case 4:
 			    		telefonia.fazerRecarga();
@@ -64,7 +68,7 @@ public class Telefonia {
 			int TipoPacote = leitor.nextInt();
 		
 			if(TipoPacote == 1) {
-					if (numPrePago < prePago.length) {
+				if (numPrePago < prePago.length) {
 						System.out.println("Informe o CPF:");
 						long cpf = leitor.nextLong();
 												
@@ -142,13 +146,102 @@ public class Telefonia {
 	};
 	
 	
-	public void fazerChamada() {};
-	public void fazerRecarga() {};
+	public void fazerChamada(GregorianCalendar data, int duracao) {
+		  Scanner scanner = new Scanner(System.in);
+	        System.out.println("Digite o tipo do assinante (1 - Pré-pago, 2 - Pós-pago): ");
+	        int tipo = scanner.nextInt();
+	        System.out.println("Digite o CPF do assinante: ");
+	        long cpf = scanner.nextLong();
+	      
+	        if (tipo == 1) {
+	            PrePago prePago = localizarPrePago(cpf);
+	            if (prePago != null) {
+	                prePago.fazerChamada(data,duracao);
+	            } else {
+	                System.out.println("Assinante pré-pago não encontrado.");
+	            }
+	        } else if (tipo == 2) {
+	            PosPago posPago = localizarPosPago(cpf);
+	            if (posPago != null) {
+	                posPago.fazerChamada(data,duracao);
+	            } else {
+	                System.out.println("Assinante pós-pago não encontrado.");
+	            }
+	        } else {
+	            System.out.println("Opção inválida.");
+	        }
+	        
+	};
+
+	public void fazerRecarga() {
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.println("Digite o CPF do assinante pré-pago: ");
+	    long cpf = scanner.nextLong();
+	
+	        PrePago prePago = localizarPrePago(cpf);
+	        if (prePago != null) {
+	            System.out.println("Digite o valor da recarga: ");
+	            float valor = scanner.nextFloat();
+	            
+	            System.out.println("Digite a data da recarga: ");
+	            String data = scanner.next();
+	            //converte a data paraGregorianCalendar
+	            SimpleDateFormat dt = new SimpleDateFormat("dd/MM");
+	            GregorianCalendar dt1 = new GregorianCalendar();//data convertida para GregorianCalendar
+	            try {
+	            	 dt1.setTime(dt.parse(data));
+	            	 prePago.recarregar(dt1, valor);
+	            	 System.out.println("Recarga realizada!");
+	            }
+	            catch(ParseException e){
+	            	System.out.println("Data no formáto inválido. Utilize o formato correto!");
+	            }
+	            
+	            
+	            
+	           
+	        } else {
+	            System.out.println("Assinante pré-pago não encontrado.");
+	        }
+	};
+	
+	
 	private PrePago localizarPrePago(long cpf) {
-		return null;};
+		    for (int i = 0; i < numPrePago; i++) { 
+		        if (prePago[i].getCpf() == cpf) { //vê se o cpf do assinante é igual o fornecido
+		            return prePago[i];
+		        }
+		    }
+		    return null; // Assinante não localizado
+		}
+	
 	private PosPago localizarPosPago(long cpf) {
-		return null;};	
-	public void imprimirFaturas() {};
+		for (int i = 0; i < numPosPago; i++) {
+	        if (posPago[i].getCpf() == cpf) {
+	            return posPago[i];
+	        }
+	    }
+	    return null; // Assinante não localizado
+		}
+		
+		
+	public void imprimirFaturas() { 
+		Scanner scanner = new Scanner(System.in);
+	    System.out.println("Digite o nº para indicar o mês para impressão das faturas: ");
+	    int mes = scanner.nextInt();
+
+	    System.out.println("Faturas dos assinantes Pré-Pagos:");
+	    for (int i = 0; i < numPrePago; i++) {
+	    	prePago[i].imprimirFatura(mes);
+	        System.out.println("--------------------");
+	    }
+
+	    System.out.println("Faturas dos assinantes Pós-Pagos:");
+	    for (int i = 0; i < numPosPago; i++) {
+	        posPago[i].imprimirFatura(mes);
+	        System.out.println("--------------------");
+	    }
+	};
 	
 	
 }
