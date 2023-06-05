@@ -52,7 +52,7 @@ public class Telefonia {
 				System.out.println("Programa encerrado!");
 				break;
 			default:
-				System.out.println("Opção inválida. Tente novamente.");
+				System.out.println("Opção inválida. Tente novamente.\n");
 				break;
 			}
 		} while (opcaoMenu != 6);
@@ -74,17 +74,17 @@ public class Telefonia {
 				System.out.println("Informa o seu nome:");
 				String nome = leitor.next();
 
-				System.out.println("Informe o número de telefone:");
+				System.out.println("Informe o número de telefone (SEM O DDD):");
 				int numero = leitor.nextInt();
 
-				PrePago assinante = new PrePago(cpf, nome, numero); //cria o objeto com os dados do usuario
+				PrePago assinante = new PrePago(cpf, nome, numero); // cria o objeto com os dados do usuario
 
-				prePago[numPrePago] = assinante; //adiciona o objeto no vetor
-				numPrePago++; //add o nº de assinantes cadastrados
-				System.out.println("Assinante cadastrado com sucesso!!!!");
+				prePago[numPrePago] = assinante; // adiciona o objeto no vetor
+				numPrePago++; // add o nº de assinantes cadastrados
+				System.out.println("Assinante cadastrado com sucesso!\n");
 				return;
 			} else {
-				System.out.println("Não é possivel fazer mais pacotes Pré Pago");
+				System.out.println("Não é possivel fazer mais pacotes Pré Pago!\n");
 			}
 
 		} else if (TipoPacote == 2) {
@@ -105,46 +105,58 @@ public class Telefonia {
 
 				posPago[numPosPago] = assinante;
 				numPosPago++;
-				System.out.println("Assinante cadastrado com sucesso!!!!\n");
+				System.out.println("Assinante cadastrado com sucesso!\n");
 				return;
 			} else {
-				System.out.println("Não é possivel fazer mais pacotes Pós Pago");
+				System.out.println("Não é possivel fazer mais pacotes Pós Pago!\n");
 			}
 		} else {
-			System.out.println("Opção invalida!");
+			System.out.println("Opção invalida!\n");
 		}
 
 	};
 
 	public void listarAssinantes() {
 
-		System.out.println("ASSINANTES CADASTRADOS\n");
-		System.out.println("Assinantes Pós Pago\n");
-		for (PosPago assinantesPosPago : posPago) { //for-each sobre o vetor posPago, que contém os Assinantes PósPago cadastrados.
-			if (assinantesPosPago != null) {
-				System.out.println("CPF: " + assinantesPosPago.getCpf());
-				System.out.println(assinantesPosPago.toString()); //exibe o assinante e o resultado da chamada toString() do objeto assinantesPrePago
-			} else {
-				System.out.println("Não há assinantes cadastrados\n");
-				break;
-			}
-		}
-		System.out.println("Assinantes Pré Pago\n");
-		for (PrePago assinantesPrePago : prePago) {
-			if (assinantesPrePago != null) {
-				System.out.println("CPF: " + assinantesPrePago.getCpf());
-				System.out.println(assinantesPrePago.toString());
-			} else {
-				System.out.println("Não há assinantes cadastrados\n");
-				break;
-			}
-		}
+		if (numPosPago == 0 && numPrePago == 0) {
+			System.out.println("Não há assinantes!\n");
+		} else {
+			System.out.println("ASSINANTES CADASTRADOS\n");
 
+			System.out.println("========================\n");
+			System.out.println("ASSINANTES PRÉ PAGO\n");
+			System.out.println("========================\n");
+			for (int i = 0; i < numPrePago; i++) {
+				if (numPrePago > 0) {
+					System.out.println("CPF: " + prePago[i].getCpf());
+					System.out.println(prePago[i].toString()); // exibe o assinante e o resultado da chamada toString()
+																// do objeto assinantesPrePago
+				} else {
+					System.out.println("Não há assinantes cadastrados\n");
+					break;
+				}
+				System.out.println("------------------------\n");
+			}
+			System.out.println("ASSINANTES PÓS PAGO\n");
+			System.out.println("========================\n");
+			for (int i = 0; i < numPosPago; i++) {
+				if (numPosPago > 0) {
+					System.out.println("CPF: " + posPago[i].getCpf());
+					System.out.println(posPago[i].toString()); // exibe o assinante e o resultado da chamada toString()
+																// do objeto assinantesPrePago
+				} else {
+					System.out.println("Não há assinantes cadastrados\n");
+					break;
+				}
+				System.out.println("------------------------\n");
+			}
+		}
 	};
 
 	public void fazerChamada() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o tipo do assinante (1 - Pré-pago, 2 - Pós-pago): ");
+		System.out.println("========================\n");
+		System.out.println("Digite o tipo do assinante: \n(1 - Pré-pago, 2 - Pós-pago): ");
 		int tipo = scanner.nextInt();
 		System.out.println("Digite o CPF do assinante: ");
 		long cpf = scanner.nextLong();
@@ -157,17 +169,18 @@ public class Telefonia {
 				System.out.println("Digite a data da chamada (dd/mm/aaaa): ");
 				String data = scanner.next();
 				// converte a data paraGregorianCalendar
-				SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); //objeto com o padrão de datap fzr a conversão
+				SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy"); // objeto com o padrão de datap fzr a
+																			// conversão
 				GregorianCalendar dt1 = new GregorianCalendar();// data convertida para GregorianCalendar
 				try {
-					dt1.setTime(dt.parse(data)); //converte a data
-					prePago.fazerChamada(dt1, duracao); //passando a data convertida dt1 e a duração da chamada
+					dt1.setTime(dt.parse(data)); // converte a data
+					prePago.fazerChamada(dt1, duracao); // passando a data convertida dt1 e a duração da chamada
 					System.out.println("Chamada realizada!");
 				} catch (ParseException e) {
-					System.out.println("Data no formáto inválido. Utilize o formato correto!");
+					System.out.println("Data no formáto inválido. Utilize o formato correto!\n");
 				}
 			} else {
-				System.out.println("Assinante pré-pago não encontrado.");
+				System.out.println("Assinante pré-pago não encontrado.\n");
 			}
 
 		} else if (tipo == 2) { // se for Pós-Pago
@@ -183,15 +196,15 @@ public class Telefonia {
 				try {
 					dt1.setTime(dt.parse(data));
 					posPago.fazerChamada(dt1, duracao);
-					System.out.println("Chamada realizada!");
+					System.out.println("Chamada realizada!\n");
 				} catch (ParseException e) {
-					System.out.println("Data no formáto inválido. Utilize o formato correto!");
+					System.out.println("Data no formáto inválido. Utilize o formato correto!\n");
 				}
 			} else {
-				System.out.println("Assinante pós-pago não encontrado.");
+				System.out.println("Assinante pós-pago não encontrado.\n");
 			}
 		} else {
-			System.out.println("Opção inválida.");
+			System.out.println("Opção inválida.\n");
 		}
 	};
 
@@ -213,13 +226,12 @@ public class Telefonia {
 			try {
 				dt1.setTime(dt.parse(data));
 				prePago.recarregar(dt1, valor);
-				System.out.println("Recarga realizada!");
 			} catch (ParseException e) {
 				System.out.println("Data no formáto inválido. Utilize o formato correto!");
 			}
 
 		} else {
-			System.out.println("Assinante pré-pago não encontrado.");
+			System.out.println("Assinante pré-pago não encontrado.\n");
 		}
 	};
 
@@ -243,19 +255,27 @@ public class Telefonia {
 
 	public void imprimirFaturas() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Digite o nº para indicar o mês para impressão das faturas: ");
+		System.out.println("Digite o nº para indicar o mês para impressão das faturas: \n");
 		int mes = scanner.nextInt();
 
-		System.out.println("Faturas dos assinantes Pré-Pagos:");
-		for (int i = 0; i < numPrePago; i++) {
-			prePago[i].imprimirFatura(mes);
-			System.out.println("--------------------");
+		System.out.println("Faturas dos assinantes Pré-Pagos:\n");
+		if (numPrePago > 0) {
+			for (int i = 0; i < numPrePago; i++) {
+				prePago[i].imprimirFatura(mes);
+				System.out.println("--------------------\n");
+			}
+		} else {
+			System.out.println("NÃO HÁ ASSINANTES!\n");
 		}
 
-		System.out.println("Faturas dos assinantes Pós-Pagos:");
-		for (int i = 0; i < numPosPago; i++) {
-			posPago[i].ImprimirFatura(mes);
-			System.out.println("--------------------");
+		System.out.println("Faturas dos assinantes Pós-Pagos:\n");
+		if (numPosPago > 0) {
+			for (int i = 0; i < numPosPago; i++) {
+				posPago[i].ImprimirFatura(mes);
+				System.out.println("--------------------");
+			}
+		} else {
+			System.out.println("NÃO HÁ ASSINANTES!\n");
 		}
 	};
 
